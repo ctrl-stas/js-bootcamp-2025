@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JS Practice Playground — js-bootcamp-2025</title>
+    <style>
+      :root {
+        --gap: 14px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          "DejaVu Sans", sans-serif;
+        line-height: 1.5;
+        padding: var(--gap);
+        background: #0f172a; /* slate-900 */
+        color: #e5e7eb; /* gray-200 */
+      }
+      header {
+        margin-bottom: var(--gap);
+      }
+      h1 {
+        margin: 0 0 6px 0;
+        font-size: 1.4rem;
+      }
+      .wrap {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--gap);
+      }
+      .card {
+        background: #111827; /* gray-900 */
+        border: 1px solid #1f2937; /* gray-800 */
+        border-radius: 12px;
+        padding: var(--gap);
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      button {
+        border: 1px solid #334155;
+        background: #0b5ed7;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button.ghost {
+        background: transparent;
+        color: #cbd5e1;
+      }
+      pre,
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas,
+          "DejaVu Sans Mono", monospace;
+        font-size: 13px;
+      }
+      #console {
+        min-height: 160px;
+        max-height: 40vh;
+        overflow: auto;
+        background: #0b1220;
+        border: 1px solid #1f2a44;
+        border-radius: 10px;
+        padding: 10px;
+        white-space: pre-wrap;
+      }
+      .muted {
+        color: #94a3b8;
+        font-size: 0.95em;
+      }
+      .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #0b1220;
+        border: 1px solid #1f2a44;
+        color: #cbd5e1;
+        font-size: 12px;
+      }
+      a {
+        color: #93c5fd;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Песочница JavaScript</h1>
+      <div class="muted">
+        Открой этот файл в браузере. Пиши код в отмеченном блоке
+        <span class="pill">&lt;script id="playground"&gt;</span> внизу.
+      </div>
+    </header>
+
+    <div class="wrap">
+      <section class="card">
+        <h2 style="margin-top: 0">Мини-инструкции</h2>
+        <ul>
+          <li>
+            Место для твоего кода находится внизу файла — ищи комментарии
+            <b>// === НАЧАЛО ТВОЕГО КОДА ===</b> и
+            <b>// === КОНЕЦ ТВОЕГО КОДА ===</b>.
+          </li>
+          <li>
+            Используй <code>print(...args)</code> вместо
+            <code>console.log</code>, чтобы вывод попадал в раздел «Вывод» ниже.
+          </li>
+          <li>
+            Есть заранее созданные элементы: <code>#app</code> для работы с DOM,
+            <code>#console</code> для вывода.
+          </li>
+          <li>
+            Хочешь перезапустить код — просто перезагрузи страницу (или жми
+            кнопку «Перезагрузить страницу»).
+          </li>
+        </ul>
+        <div class="row">
+          <button id="reloadBtn" title="Перезагрузить страницу">
+            Перезагрузить страницу
+          </button>
+          <button id="clearBtn" class="ghost" title="Очистить вывод">
+            Очистить вывод
+          </button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin-top: 0">Площадка для DOM</h2>
+        <div
+          id="app"
+          style="
+            min-height: 100px;
+            border: 1px dashed #334155;
+            border-radius: 10px;
+            padding: 10px;
+          "
+        >
+          <!-- сюда ты можешь добавлять элементы через JS -->
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin-top: 0">Вывод</h2>
+        <pre id="console" aria-live="polite"></pre>
+      </section>
+    </div>
+
+    <!-- ======= СЛУЖЕБНЫЙ СКРИПТ: консоль и утилиты ======= -->
+    <script>
+      (function setupPlayground() {
+        const outEl = document.getElementById("console");
+        const appEl = document.getElementById("app");
+
+        // Кнопки
+        document
+          .getElementById("reloadBtn")
+          .addEventListener("click", () => location.reload());
+        document.getElementById("clearBtn").addEventListener("click", () => {
+          outEl.textContent = "";
+        });
+
+        // Безопасное добавление строк в вывод
+        function writeLine(text) {
+          const time = new Date().toLocaleTimeString();
+          outEl.textContent += `[${time}] ${text}\n`;
+          outEl.scrollTop = outEl.scrollHeight;
+        }
+
+        // Перехватываем console.log и ошибки
+        const _log = console.log.bind(console);
+        console.log = (...args) => {
+          _log(...args);
+          try {
+            writeLine(
+              args
+                .map((a) => {
+                  if (typeof a === "object") return JSON.stringify(a, null, 2);
+                  return String(a);
+                })
+                .join(" ")
+            );
+          } catch {
+            writeLine(args.map(String).join(" "));
+          }
+        };
+
+        window.print = (...args) => console.log(...args); // удобный алиас
+        window.$app = appEl; // быстрый доступ к площадке DOM
+        window.$out = outEl; // прямой доступ к выводу
+      })();
+    </script>
+
+    <!-- ======= ЭТОТ БЛОК — ДЛЯ ТВОЕГО КОДА ======= -->
+    <script type="module" id="playground">
+      // === НАЧАЛО ТВОЕГО КОДА ===
+      // Примеры (можно удалить):
+      print("👋 Привет из песочницы!");
+      const message = "Можешь писать любой JS-код здесь.";
+      print(message);
+      // alert("WARNING");
+
+      let message1 = "Hello";
+      print(message1);
+
+      let string = "учусь выводить текст в консольке";
+      print(string);
+
+      let user = "Bob",
+        age = "23",
+        spec = "dev";
+
+      print(user + " " + age + " " + spec);
+
+      message1 = string;
+      print(message1);
+
+      const COLOR_RED = "#F00 это красный";
+      const COLOR_GREEN = "#0F0 это зеленый";
+      const COLOR_BLUE = "00F это синий";
+      const COLOR_ORANGE = "FF7F00 это оранжевый";
+
+      let color = COLOR_BLUE;
+      print(color);
+
+      // ДЗ с learnjs
+      let admin;
+      let name;
+      name = "john";
+      admin = name;
+      print(admin);
+
+      let ourPlanetName = "Земля";
+      let currentUserName;
+
+      // Урок по числам
+      let message2 = "stroka msg2";
+      print(message2);
+      message2 = 123344;
+      print(message2);
+
+      print("текст без переменных");
+
+      print(1 / 0, " <-- специально вызванная бесконечность делением на ноль");
+
+      print(
+        "bububebe" / 20,
+        "<-- специально вызванный NaN делением строки на число"
+      );
+
+      print(NaN ** 0, "<-- NaN ** 0 = 1");
+
+      // Для определения bigInt добавляем n в конце
+      const bigInt = 1234567890123456789012345678901234567890n;
+
+      print(`Привет, ${user}!`);
+
+      let isGreater = 4 > 10;
+      print(isGreater, "<-- результат сравнения 4 и 10");
+
+      // age = null;
+      // print(age);
+
+      print(typeof isGreater, "<-- тип данных переменной выше");
+
+      name = "Ilya";
+      print(`hello ${1}`);
+      print(`hello ${"name"}`);
+      print(`hello ${name}`);
+
+      // let userAge = prompt("Ваш возраст", 99);
+      // print(userAge);
+      // let isUserAgree = confirm("Ты уверен?");
+      // print(isUserAgree);
+
+      let userName = prompt("Как тебя зовут?", "Стас");
+      alert("Нормальный ты тип," + " " + userName);
+
+      // Работа с DOM:
+      // const box = document.createElement("div");
+      // box.textContent = "Я добавлен из JS";
+      // box.style.padding = "8px";
+      // box.style.marginTop = "6px";
+      // box.style.background = "#0b1220";
+      // box.style.border = "1px solid #1f2a44";
+      // box.style.borderRadius = "8px";
+      // $app.appendChild(box);
+
+      const box1 = document.createElement("div");
+      box1.textContent = "этот текст я добавил сам для DOM";
+      box1.style.padding = "20px";
+      box1.style.marginTop = "6px";
+      box1.style.background = "#0b1220";
+      box1.style.border = "1px solid #1f2a44";
+      box1.style.borderRadius = "20px";
+      $app.appendChild(box1);
+
+      // Подсказка: можешь использовать top-level await, т.к. это модуль.
+      // await new Promise(r => setTimeout(r, 500));
+      // print("Прошло 0.5 секунды");
+
+      // === КОНЕЦ ТВОЕГО КОДА ===
+    </script>
+  </body>
+</html>

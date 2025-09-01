@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      "use strict";
+
+      let userName = prompt("Как тебя зовут?", "Стас");
+      alert("Нормальный ты тип," + " " + userName);
+    </script>
+  </body>
+</html>

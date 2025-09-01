@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JS Playground — тренажер JavaScript</title>
+    <style>
+      :root {
+        --bg: #0f1220;
+        --panel: #171a2b;
+        --panel-2: #1e2240;
+        --ink: #e9ecff;
+        --muted: #b7c0ff;
+        --accent: #6ea3ff;
+        --accent-2: #7ee0d2;
+        --warn: #ffd479;
+        --ok: #9dffa8;
+        --danger: #ff7a7a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        line-height: 1.5;
+      }
+      a {
+        color: var(--accent);
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 18px;
+      }
+      header {
+        background: linear-gradient(135deg, var(--panel), var(--panel-2));
+        border-radius: 14px;
+        padding: 16px 18px;
+        margin: 8px 0 16px;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 22px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .layout {
+        display: grid;
+        gap: 14px;
+      }
+      @media (min-width: 900px) {
+        .layout {
+          grid-template-columns: 1.15fr 0.85fr;
+        }
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid #2b2f53;
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 6px 0 8px;
+      }
+      .btn {
+        appearance: none;
+        border: 1px solid #2b2f53;
+        background: #1a1e36;
+        color: #dfe6ff;
+        border-radius: 10px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      .btn:hover {
+        border-color: #4150a8;
+      }
+      .btn.warn {
+        border-color: #6b5a2a;
+        background: #2a2618;
+        color: #ffdba0;
+      }
+      .btn.danger {
+        border-color: #5a2a2a;
+        background: #2a1818;
+        color: #ffb3b3;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid #33407a;
+        background: #1a1f3f;
+        color: #cce;
+        margin-right: 6px;
+      }
+      textarea {
+        width: 100%;
+        min-height: 360px;
+        border-radius: 10px;
+        border: 1px solid #2b2f53;
+        background: #111527;
+        color: #e7ebff;
+        padding: 10px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      #inlineStore {
+        display: none;
+      }
+      .console {
+        background: #0c1020;
+        border: 1px solid #2b2f53;
+        border-radius: 10px;
+        min-height: 200px;
+        max-height: 460px;
+        overflow: auto;
+        padding: 10px;
+        font-family: ui-monospace, Consolas, monospace;
+        font-size: 13px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .pill {
+        display: inline-block;
+        border: 1px solid #33407a;
+        background: #1a1f3f;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 11px;
+        color: #cce;
+      }
+      .line {
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 4px 0;
+      }
+      .log .prefix {
+        color: #9bb8ff;
+      }
+      .info .prefix {
+        color: #7ee0d2;
+      }
+      .warn .prefix {
+        color: #ffd479;
+      }
+      .error .prefix {
+        color: #ff7a7a;
+      }
+      .ts {
+        opacity: 0.6;
+        font-size: 11px;
+        margin-right: 6px;
+      }
+      .footer {
+        margin: 14px 0 6px;
+        text-align: center;
+        color: #9aa6ff;
+      }
+      code {
+        background: #111527;
+        color: #d6e0ff;
+        border: 1px solid #2b2f53;
+        border-radius: 6px;
+        padding: 0 6px;
+      }
+      details {
+        background: #13162a;
+        border: 1px solid #2b2f53;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 10px;
+      }
+      summary {
+        cursor: pointer;
+      }
+      .hint {
+        font-size: 12px;
+        color: #9fb1ff;
+        margin: 8px 0 -2px;
+      }
+      .small {
+        font-size: 12px;
+        color: #9fb1ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>JS Playground — тренажер JavaScript</h1>
+        <div class="row">
+          <span class="tag">Запуск: Ctrl/Cmd + Enter</span>
+          <span class="tag">Тайминг выполнения</span>
+          <span class="tag">Helpers: assert, test, sleep</span>
+        </div>
+        <p class="muted">
+          Пишите код в редакторе ниже и запускайте. Есть также специальное место
+          для INLINE-кода, которое можно запускать отдельной кнопкой.
+        </p>
+      </header>
+
+      <div class="layout">
+        <section class="panel">
+          <h2 style="margin: 4px 0 6px">Редактор кода</h2>
+          <div class="toolbar">
+            <button class="btn" id="runBtn">Запустить (Ctrl/Cmd+Enter)</button>
+            <button class="btn" id="clearBtn">Очистить консоль</button>
+            <button class="btn" id="saveBtn">Сохранить</button>
+            <button class="btn warn" id="resetBtn">Сбросить к шаблону</button>
+            <span class="pill" id="timePill">Время: —</span>
+          </div>
+          <textarea id="editor" spellcheck="false"></textarea>
+
+          <details>
+            <summary>Подсказки и хелперы</summary>
+            <div class="hint">Доступно в рантайме:</div>
+            <ul>
+              <li>
+                <code>assert(cond, msg)</code> — бросает ошибку, если cond
+                ложен.
+              </li>
+              <li>
+                <code>test(name, fn)</code> — запускает fn и пишет PASS/FAIL.
+              </li>
+              <li>
+                <code>await sleep(ms)</code> — задержка в мс (поддерживается
+                top-level await в редакторе).
+              </li>
+            </ul>
+            <div class="hint">Заметки:</div>
+            <ul>
+              <li>
+                Код из редактора выполняется как асинхронный модуль, можно
+                использовать <code>await</code> на верхнем уровне.
+              </li>
+              <li>Логи попадают в панель консоли справа.</li>
+            </ul>
+          </details>
+        </section>
+
+        <aside class="panel">
+          <h2 style="margin: 4px 0 6px">Консоль</h2>
+          <div id="console" class="console" aria-live="polite"></div>
+          <div class="toolbar" style="margin-top: 8px">
+            <button class="btn" id="runInlineBtn">Запустить INLINE</button>
+            <button class="btn" id="copyLogsBtn">Скопировать логи</button>
+          </div>
+
+          <details>
+            <summary>Небольшие тренировочные идеи</summary>
+            <ul style="margin-top: 6px">
+              <li>capitalize(str) и тест.</li>
+              <li>debounce(fn, ms) + проверка через sleep.</li>
+              <li>Генератор range(start,end,step) и сумма.</li>
+              <li>mockFetch(url, {delay}) с шансом ошибки и retry.</li>
+            </ul>
+          </details>
+        </aside>
+      </div>
+
+      <!-- ============================
+       МЕСТО ДЛЯ ВАШИХ СКРИПТОВ (INLINE)
+       Как пользоваться:
+       1) Пишите код внутри скрытого блока ниже (#inlineStore).
+       2) Нажмите кнопку "Запустить INLINE".
+       3) Результаты смотрите в "Консоли".
+       Доступны: console, assert, test, sleep, performance.
+       ============================ -->
+      <textarea id="inlineStore">
+console.log('Привет из INLINE-блока!');
+test('Сложение работает', function () {
+  function sum(a, b) { return a + b; }
+  assert(sum(2, 2) === 4, '2+2 должно быть 4');
+});
+(async function(){
+  await sleep(200);
+  console.info('Готово (INLINE).');
+})();
+  </textarea
+      >
+      <!-- ===== КОНЕЦ МЕСТА ДЛЯ ВАШИХ СКРИПТОВ (INLINE) ===== -->
+
+      <footer class="footer">
+        Удачной практики! Код редактора сохраняется в браузере автоматически.
+      </footer>
+    </div>
+
+    <script>
+      /* eslint-disable no-console */
+      (function () {
+        "use strict";
+
+        var lsKey = "js-playground-code-v1";
+
+        // DOM
+        var editor = document.getElementById("editor");
+        var runBtn = document.getElementById("runBtn");
+        var clearBtn = document.getElementById("clearBtn");
+        var saveBtn = document.getElementById("saveBtn");
+        var resetBtn = document.getElementById("resetBtn");
+        var timePill = document.getElementById("timePill");
+        var consoleEl = document.getElementById("console");
+        var runInlineBtn = document.getElementById("runInlineBtn");
+        var copyLogsBtn = document.getElementById("copyLogsBtn");
+        var inlineStore = document.getElementById("inlineStore");
+
+        // Шаблон кода редактора
+        var template = [
+          "// Добро пожаловать в JS Playground!",
+          "// Подсказка: жмите Ctrl/Cmd+Enter для запуска. Доступны: console, assert, test, sleep.",
+          "console.log('Hello from editor!');",
+          "function capitalize(str){",
+          "  str = (str == null ? '' : String(str));",
+          "  str = str.trim();",
+          "  return str.replace(/^./, function (c){ return c.toUpperCase(); });",
+          "}",
+          "",
+          "test('capitalize: базовый', function(){",
+          "  assert(capitalize('js') === 'Js', 'ожидали Js');",
+          "});",
+          "",
+          "await sleep(150);",
+          "console.info('Готово! Время смотрите над редактором.');",
+        ].join("\\n");
+
+        // Загрузка/сохранение
+        var saved = null;
+        try {
+          saved = localStorage.getItem(lsKey);
+        } catch (e) {
+          saved = null;
+        }
+        editor.value = saved ? saved : template;
+
+        // Консоль
+        var logsBuffer = [];
+        function nowTs() {
+          try {
+            return new Date().toLocaleTimeString();
+          } catch (e) {
+            return "";
+          }
+        }
+        function appendLine(type, args) {
+          var line = document.createElement("div");
+          line.className = "line " + type;
+          var time = document.createElement("span");
+          time.className = "ts";
+          time.textContent = "[" + nowTs() + "]";
+          var prefix = document.createElement("span");
+          prefix.className = "prefix";
+          prefix.textContent = type.toUpperCase() + ": ";
+          var content = document.createElement("span");
+
+          var parts = [];
+          for (var i = 0; i < args.length; i++) {
+            var v = args[i];
+            if (typeof v === "string") {
+              parts.push(v);
+            } else if (v instanceof Error) {
+              parts.push(v.stack || v.name + ": " + v.message);
+            } else {
+              try {
+                parts.push(JSON.stringify(v, null, 2));
+              } catch (e) {
+                parts.push(String(v));
+              }
+            }
+          }
+          var formatted = parts.join(" ");
+          content.textContent = formatted;
+          logsBuffer.push(time.textContent + " " + type + ": " + formatted);
+
+          line.appendChild(time);
+          line.appendChild(prefix);
+          line.appendChild(content);
+          consoleEl.appendChild(line);
+          consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+        function clearConsole() {
+          consoleEl.innerHTML = "";
+          logsBuffer = [];
+        }
+
+        // Helpers
+        function makeSandboxConsole() {
+          return {
+            log: function () {
+              appendLine("log", arguments);
+            },
+            info: function () {
+              appendLine("info", arguments);
+            },
+            warn: function () {
+              appendLine("warn", arguments);
+            },
+            error: function () {
+              appendLine("error", arguments);
+            },
+          };
+        }
+        function assert(cond, msg) {
+          if (!cond) {
+            throw new Error(msg || "Assertion failed");
+          }
+        }
+        function sleep(ms) {
+          return new Promise(function (res) {
+            setTimeout(res, ms);
+          });
+        }
+        function test(name, fn) {
+          var start = performance.now();
+          try {
+            var r = fn();
+            if (r && typeof r.then === "function") {
+              r.then(function () {
+                var dt = (performance.now() - start).toFixed(1);
+                appendLine("info", ["PASS (" + dt + "ms)", name]);
+              }).catch(function (err) {
+                var dtE = (performance.now() - start).toFixed(1);
+                appendLine("error", ["FAIL (" + dtE + "ms)", name, err]);
+              });
+            } else {
+              var dt = (performance.now() - start).toFixed(1);
+              appendLine("info", ["PASS (" + dt + "ms)", name]);
+            }
+          } catch (err) {
+            var dt2 = (performance.now() - start).toFixed(1);
+            appendLine("error", ["FAIL (" + dt2 + "ms)", name, err]);
+          }
+        }
+
+        function clearTiming() {
+          timePill.textContent = "Время: —";
+        }
+
+        // Выполнение кода
+        function run(code) {
+          clearTiming();
+          var start = performance.now();
+          var sandboxConsole = makeSandboxConsole();
+          var AsyncFunction = Object.getPrototypeOf(
+            async function () {}
+          ).constructor;
+          return new AsyncFunction(
+            "console",
+            "assert",
+            "test",
+            "sleep",
+            "performance",
+            '"use strict"; \\n ' + code + " \\n "
+          )(sandboxConsole, assert, test, sleep, performance)
+            .then(function () {
+              var dt = (performance.now() - start).toFixed(1);
+              timePill.textContent = "Время: " + dt + " ms";
+            })
+            .catch(function (err) {
+              appendLine("error", [err]);
+              var dt = (performance.now() - start).toFixed(1);
+              timePill.textContent = "Время: " + dt + " ms (с ошибкой)";
+            });
+        }
+
+        // Действия
+        runBtn.addEventListener("click", function () {
+          clearConsole();
+          run(editor.value);
+        });
+        clearBtn.addEventListener("click", function () {
+          clearConsole();
+        });
+        saveBtn.addEventListener("click", function () {
+          try {
+            localStorage.setItem(lsKey, editor.value);
+          } catch (e) {}
+          appendLine("info", ["Сохранено в браузер (localStorage)."]);
+        });
+        resetBtn.addEventListener("click", function () {
+          if (
+            confirm(
+              "Сбросить код к шаблону? Текущее содержимое будет потеряно."
+            )
+          ) {
+            editor.value = template;
+            try {
+              localStorage.setItem(lsKey, editor.value);
+            } catch (e) {}
+            appendLine("warn", ["Код сброшен к шаблону."]);
+          }
+        });
+        copyLogsBtn.addEventListener("click", function () {
+          var text = logsBuffer.join("\\n");
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard
+              .writeText(text)
+              .then(function () {
+                appendLine("info", ["Логи скопированы в буфер обмена."]);
+              })
+              .catch(function (e) {
+                appendLine("warn", ["Не удалось скопировать логи: ", e]);
+              });
+          } else {
+            // Фолбэк
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand("copy");
+              appendLine("info", ["Логи скопированы."]);
+            } catch (e) {
+              appendLine("warn", ["Не удалось скопировать логи: ", e]);
+            }
+            document.body.removeChild(ta);
+          }
+        });
+
+        // Горячая клавиша
+        editor.addEventListener("keydown", function (e) {
+          if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+            e.preventDefault();
+            runBtn.click();
+          }
+        });
+
+        // Запуск INLINE
+        runInlineBtn.addEventListener("click", function () {
+          clearConsole();
+          var code = String(inlineStore.value || "");
+          run(code);
+        });
+      })();
+    </script>
+  </body>
+</html>
