@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>План изучения JavaScript (старт 01.09.2025)</title>
+    <style>
+      :root {
+        --bg: #0f1220;
+        --ink: #e9ecff;
+        --muted: #b7c0ff;
+        --p1: #1b1f3a;
+        --p2: #2a2e57;
+        --p3: #1e2240;
+        --line: #2b2f53;
+        --accent: #6ea3ff;
+        --accent-2: #7ee0d2;
+        --good: #50d7a7;
+        --warn: #ffd479;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        line-height: 1.55;
+        scroll-behavior: smooth;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      header {
+        background: linear-gradient(135deg, var(--p1), var(--p2));
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px 20px;
+        margin: 10px 0 18px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: 26px;
+      }
+      p.lead {
+        margin: 6px 0 0;
+        color: var(--muted);
+      }
+      .badge {
+        display: inline-block;
+        background: #1a1f3f;
+        border: 1px solid #33407a;
+        color: #cfe2ff;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 12px;
+        margin: 6px 6px 0 0;
+      }
+      .sticky {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(15, 18, 32, 0.92);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--line);
+        padding: 8px 10px;
+        margin: -8px -10px 12px;
+      }
+      .btn {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: #161a33;
+        color: #e7ecff;
+        border-radius: 10px;
+        padding: 8px 12px;
+        cursor: pointer;
+        margin-right: 8px;
+      }
+      .btn:hover {
+        border-color: #4050a8;
+      }
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+      @media (min-width: 840px) {
+        .grid-2 {
+          grid-template-columns: 1.2fr 0.8fr;
+        }
+      }
+      .panel {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.03),
+          transparent
+        );
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+      }
+      .week {
+        background: linear-gradient(135deg, var(--p2), var(--p3));
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        margin: 18px 0;
+      }
+      .week > h2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 8px;
+        font-size: 20px;
+      }
+      .week .range {
+        color: #aecdff;
+        font-size: 13px;
+      }
+      .days {
+        display: grid;
+        gap: 12px;
+      }
+      @media (min-width: 760px) {
+        .days {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (min-width: 1040px) {
+        .days {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      .day {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+        background: linear-gradient(
+          160deg,
+          #1a1d37,
+          #202653 70%,
+          rgba(126, 224, 210, 0.08)
+        );
+      }
+      .day .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+      .date {
+        font-weight: 600;
+        color: #cfe0ff;
+      }
+      .dow {
+        color: #95a3ff;
+        font-size: 12px;
+        margin-left: 8px;
+      }
+      .time {
+        color: #9fb1ff;
+        font-size: 12px;
+      }
+      .topic {
+        font-weight: 600;
+        margin: 6px 0;
+      }
+      .small {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .rest {
+        background: linear-gradient(
+          160deg,
+          #1a1d37 10%,
+          #22314e 45%,
+          rgba(80, 215, 167, 0.18) 100%
+        );
+        border-color: #2b3e3a;
+      }
+      .block {
+        background: linear-gradient(
+          160deg,
+          #1a1d37 10%,
+          #3a2f13 45%,
+          rgba(255, 212, 121, 0.18) 100%
+        );
+        border-color: #4a3a18;
+      }
+      ul {
+        padding-left: 18px;
+        margin: 6px 0;
+      }
+      .toc a {
+        display: block;
+        margin: 6px 0;
+      }
+      .note {
+        background: #141837;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px;
+        color: #cdd6ff;
+      }
+      footer {
+        margin: 34px 0 10px;
+        color: #9aa6ff;
+        text-align: center;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid #33407a;
+        background: #1a1f3f;
+        color: #cce;
+        margin-right: 6px;
+        margin-top: 4px;
+      }
+      .checklist li {
+        list-style: none;
+        margin: 6px 0;
+        padding-left: 28px;
+        position: relative;
+      }
+      .checklist input {
+        position: absolute;
+        left: 0;
+        top: 2px;
+      }
+      @media print {
+        .sticky,
+        .btn {
+          display: none !important;
+        }
+        body {
+          background: #fff;
+          color: #000;
+        }
+
+        .week,
+        .panel,
+        header {
+          background: #fff;
+          border-color: #ddd;
+        }
+        a {
+          color: #000;
+          text-decoration: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sticky">
+        <a class="btn" href="#schedule">К расписанию</a>
+        <a class="btn" href="#blocks">Задания по блокам</a>
+        <a class="btn" href="#progress">Трекер</a>
+        <a class="btn" href="#resources">Ресурсы</a>
+        <button class="btn" onclick="window.print()">Печать / PDF</button>
+      </div>
+
+      <header>
+        <h1>План изучения JavaScript за 2–3 месяца</h1>
+        <p class="lead">
+          Старт: 01.09.2025. Учебные дни — Пн–Пт (60–90 мин/день). Сб и Вс —
+          отдых. Темы взяты из учебника learn.javascript.ru, к каждой —
+          мини‑практика и ссылки. По завершении каждой недели — интеграционное
+          задание.
+        </p>
+        <div>
+          <span class="badge">Формат: чтение + короткая практика</span>
+          <span class="badge">Цель: быстрый охват теории</span>
+          <span class="badge">Выходные: отдых с зелёным градиентом</span>
+        </div>
+      </header>
+
+      <div class="grid grid-2">
+        <div class="panel toc">
+          <h2>Навигация</h2>
+          <a href="#week1">Неделя 1 (01.09 → 07.09)</a>
+          <a href="#week2">Неделя 2 (08.09 → 14.09)</a>
+          <a href="#week3">Неделя 3 (15.09 → 21.09)</a>
+          <a href="#week4">Неделя 4 (22.09 → 28.09)</a>
+          <a href="#week5">Неделя 5 (29.09 → 05.10)</a>
+          <a href="#week6">Неделя 6 (06.10 → 12.10)</a>
+          <a href="#week7">Неделя 7 (13.10 → 19.10)</a>
+          <a href="#week8">Неделя 8 (20.10 → 26.10)</a>
+          <a href="#week9">Неделя 9 (27.10 → 02.11)</a>
+          <a href="#week10">Неделя 10 (03.11 → 09.11)</a>
+        </div>
+        <div class="panel">
+          <h2>Как работать с планом</h2>
+          <ul>
+            <li>
+              Чтение по ссылкам MDN/learn.javascript.ru. Конспект 5–10 тезисов в
+              конце дня.
+            </li>
+            <li>
+              Мини‑практика 15–30 минут. Если нет времени — сначала практика,
+              теорию дочитайте на следующий день.
+            </li>
+            <li>По пятницам — интеграционные задания по блоку темы недели.</li>
+            <li>
+              На выходных — отдых. Можно слегка повторить карточки/конспект.
+            </li>
+          </ul>
+          <div class="note">
+            Совет: заведите репозиторий js-notes-2025 с папками week-01 …
+            week-10 и README с тезисами.
+          </div>
+        </div>
+      </div>
+
+      <section id="schedule">
+        <h2 class="panel" style="margin-top: 18px">
+          Расписание по неделям (темы из learn.javascript.ru)
+        </h2>
+
+        <!-- Week 1 -->
+        <div class="week" id="week1">
+          <h2>
+            Неделя 1 — Введение, переменные, типы, преобразования
+            <span class="range">01.09.2025 — 07.09.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">01.09.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Введение и “Привет, мир” + структура кода</div>
+              <div class="small">
+                Читать: learn.javascript.ru/hello-world,
+                learn.javascript.ru/structure
+              </div>
+              <ul>
+                <li>Что такое интерпретатор/движок, где запускается JS.</li>
+              </ul>
+              <div class="small">
+                <b>Практика:</b> создайте index.html и script.js — выведите
+                приветствие и текущую дату в консоль.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">02.09.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Переменные: let/const, имена, Strict mode</div>
+              <div class="small">
+                Читать: learn.javascript.ru/variables,
+                learn.javascript.ru/strict-mode
+              </div>
+              <div class="small">
+                <b>Практика:</b> напишите mini‑inventory: name, qty, price;
+                посчитайте сумму и выведите шаблонной строкой.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">03.09.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Типы данных и typeof</div>
+              <div class="small">Читать: learn.javascript.ru/types</div>
+              <div class="small">
+                <b>Практика:</b> составьте таблицу typeof для: null, undefined,
+                0, '0', true, {}, [], () => {}.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">04.09.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Преобразование типов</div>
+              <div class="small">
+                Читать: learn.javascript.ru/type-conversions
+              </div>
+              <div class="small">
+                <b>Практика:</b> реализуйте toNumberSafe(v) и toBoolSafe(v) с
+                тестами граничных случаев.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">05.09.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">Интеграция недели: мини‑калькулятор</div>
+              <div class="small">
+                Темы: переменные, строки/числа, преобразования.
+              </div>
+              <div class="small">
+                <b>Задание:</b> CLI‑калькулятор: + − × ÷, округление, история
+                операций (массив).
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">06.09.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">5‑мин обзор конспекта, прогулка 20 мин.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">07.09.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Повторите вслух термины недели.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 2 -->
+        <div class="week" id="week2">
+          <h2>
+            Неделя 2 — Операторы, ветвления, циклы, основы функций
+            <span class="range">08.09.2025 — 14.09.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">08.09.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Базовые операторы</div>
+              <div class="small">Читать: learn.javascript.ru/operators</div>
+              <div class="small">
+                <b>Практика:</b> посчитайте НДС, скидку и конечную цену товара
+                (точность до 2 знаков).
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">09.09.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Сравнения и логические операторы</div>
+              <div class="small">
+                Читать: learn.javascript.ru/comparison,
+                learn.javascript.ru/logical-operators
+              </div>
+              <div class="small">
+                <b>Практика:</b> функция accessLevel(age, isMember) возвращает
+                'deny'|'basic'|'pro'.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">10.09.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Ветвления: if/else, тернарный оператор</div>
+              <div class="small">Читать: learn.javascript.ru/ifelse</div>
+              <div class="small">
+                <b>Практика:</b> классифицируйте значение:
+                число/строка/пусто/другое (строкой).
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">11.09.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Циклы: while, for, switch</div>
+              <div class="small">
+                Читать: learn.javascript.ru/while-for,
+                learn.javascript.ru/switch
+              </div>
+              <div class="small">
+                <b>Практика:</b> FizzBuzz+, вывести сумму всех “Fizz”.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">12.09.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">Интеграция недели: “Квиз‑движок”</div>
+              <div class="small">
+                Соберите 5 вопросов, проверку ответов, подсчёт баллов, выдачу
+                результата по диапазону.
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">13.09.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Повтор карточками терминов.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">14.09.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">10 минут растяжки, прогулка.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 3 -->
+        <div class="week" id="week3">
+          <h2>
+            Неделя 3 — Функции, замыкания, объекты
+            <span class="range">15.09.2025 — 21.09.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">15.09.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Функции: основы</div>
+              <div class="small">
+                Читать: learn.javascript.ru/function-basics
+              </div>
+              <div class="small">
+                <b>Практика:</b> sum(a,b), avg(...n), capitalize(str) — с
+                простыми тестами.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">16.09.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Function Expression, стрелочные функции</div>
+              <div class="small">
+                Читать: learn.javascript.ru/function-expressions,
+                learn.javascript.ru/arrow-functions-basics
+              </div>
+              <div class="small">
+                <b>Практика:</b> сделайте compose(...fns) и протестируйте на 2–3
+                функциях.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">17.09.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Замыкания</div>
+              <div class="small">Читать: learn.javascript.ru/closure</div>
+              <div class="small">
+                <b>Практика:</b> makeCounter() с методами inc/dec/value —
+                приватное состояние.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">18.09.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Объекты: основы, копирование</div>
+              <div class="small">
+                Читать: learn.javascript.ru/object,
+                learn.javascript.ru/object-copy
+              </div>
+              <div class="small">
+                <b>Практика:</b> deepClone(obj) vs JSON.parse/stringify —
+                сравнить кейсы с датами.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">19.09.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">
+                Интеграция недели: “Список задач” (модель)
+              </div>
+              <div class="small">
+                CRUD операции над массивом задач: add/edit/toggle/filter; чистые
+                функции.
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">20.09.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Обзор конспекта, 15 минут.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">21.09.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Без экрана 1–2 часа.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 4 -->
+        <div class="week" id="week4">
+          <h2>
+            Неделя 4 — Числа, строки, массивы
+            <span class="range">22.09.2025 — 28.09.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">22.09.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Конструкторы и оператор new</div>
+              <div class="small">
+                Читать: learn.javascript.ru/constructor-new
+              </div>
+              <div class="small">
+                <b>Практика:</b> конструктор Timer(start/stop/pause) с
+                форматированием времени.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">23.09.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Числа</div>
+              <div class="small">Читать: learn.javascript.ru/number</div>
+              <div class="small">
+                <b>Практика:</b> parser цены: парсит '1 234,50 ₽' → 1234.5 и
+                обратно форматирует.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">24.09.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Строки</div>
+              <div class="small">Читать: learn.javascript.ru/string</div>
+              <div class="small">
+                <b>Практика:</b> функции: truncate(str, n), maskEmail(email).
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">25.09.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Массивы</div>
+              <div class="small">Читать: learn.javascript.ru/array</div>
+              <div class="small">
+                <b>Практика:</b> получить уникальный отсортированный список
+                тегов из массива объектов.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">26.09.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">Интеграция недели: “Статистика заказов”</div>
+              <div class="small">
+                Подсчёт среднего чека, медианы, топ‑товаров, форматирование.
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">27.09.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Лёгкое повторение.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">28.09.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Перерыв от экрана.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 5 -->
+        <div class="week" id="week5">
+          <h2>
+            Неделя 5 — Коллекции, деструктуризация, даты, JSON
+            <span class="range">29.09.2025 — 05.10.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">29.09.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Map и Set</div>
+              <div class="small">Читать: learn.javascript.ru/map-set</div>
+              <div class="small">
+                <b>Практика:</b> частотный словарь слов в тексте (Map),
+                уникальные теги (Set).
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">30.09.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">WeakMap и WeakSet</div>
+              <div class="small">
+                Читать: learn.javascript.ru/weakmap-weakset
+              </div>
+              <div class="small">
+                <b>Практика:</b> кэширование результатов функции с очисткой по
+                сборке мусора.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">01.10.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Деструктурирующее присваивание</div>
+              <div class="small">
+                Читать: learn.javascript.ru/destructuring-assignment
+              </div>
+              <div class="small">
+                <b>Практика:</b> распаковка настроек с значениями по умолчанию.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">02.10.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Дата и время</div>
+              <div class="small">Читать: learn.javascript.ru/date</div>
+              <div class="small">
+                <b>Практика:</b> humanizeDuration(ms) и форматер даты в RU/EN.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">03.10.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">Интеграция недели: “Каталог данных”</div>
+              <div class="small">
+                Имитация API, кэш страниц в Map, форматеры дат/денег,
+                сохранение/загрузка JSON.
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">04.10.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Прогулка.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">05.10.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Итоги недели: 3 инсайта.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 6 -->
+        <div class="week" id="week6">
+          <h2>
+            Неделя 6 — Свойства, прототипы, классы
+            <span class="range">06.10.2025 — 12.10.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">06.10.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Флаги и дескрипторы свойств</div>
+              <div class="small">
+                Читать: learn.javascript.ru/property-descriptors
+              </div>
+              <div class="small">
+                <b>Практика:</b> defineProperty для read‑only поля id.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">07.10.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Геттеры и сеттеры</div>
+              <div class="small">
+                Читать: learn.javascript.ru/property-accessors
+              </div>
+              <div class="small">
+                <b>Практика:</b> объект user с fullName геттер/сеттер.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">08.10.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Прототипное наследование</div>
+              <div class="small">
+                Читать: learn.javascript.ru/prototype-inheritance
+              </div>
+              <div class="small">
+                <b>Практика:</b> цепочка прототипов для ролей: user → editor →
+                admin.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">09.10.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">F.prototype и наследование</div>
+              <div class="small">
+                Читать: learn.javascript.ru/function-prototype
+              </div>
+              <div class="small">
+                <b>Практика:</b> конструктор Person → Student со своим методом.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">10.10.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">
+                Интеграция недели: “Модель данных с классами”
+              </div>
+              <div class="small">Читать: learn.javascript.ru/classes</div>
+              <div class="small">
+                <b>Задание:</b> классы Task, Project, методы, статики, валидация
+                входных данных.
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">11.10.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Рефлексия: 5 пунктов.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">12.10.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Прогулка 30 мин.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 7 -->
+        <div class="week" id="week7">
+          <h2>
+            Неделя 7 — Ошибки, таймеры, промисы (введение)
+            <span class="range">13.10.2025 — 19.10.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">13.10.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Обработка ошибок</div>
+              <div class="small">Читать: learn.javascript.ru/try-catch</div>
+              <div class="small">
+                <b>Практика:</b> ValidationError для формы (имя/почта).
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">14.10.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Планирование: setTimeout/setInterval</div>
+              <div class="small">
+                Читать: learn.javascript.ru/settimeout-setinterval
+              </div>
+              <div class="small">
+                <b>Практика:</b> debounce(fn, ms) и throttle(fn, ms).
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">15.10.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Промисы: основы</div>
+              <div class="small">
+                Читать: learn.javascript.ru/promise-basics
+              </div>
+              <div class="small">
+                <b>Практика:</b> mockFetch(url,{delay}) → Promise,
+                then/catch/finally.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">16.10.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Цепочки промисов</div>
+              <div class="small">
+                Читать: learn.javascript.ru/promise-chaining
+              </div>
+              <div class="small">
+                <b>Практика:</b> цепочка: загрузка → парсинг → форматирование,
+                обработка ошибок.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">17.10.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">Интеграция недели: “Мини‑загрузчик”</div>
+              <div class="small">
+                Загрузка 3 ресурсов последовательно и параллельно, сравнить
+                время.
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">18.10.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Медитация 10 мин.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">19.10.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Без экрана.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 8 -->
+        <div class="week" id="week8">
+          <h2>
+            Неделя 8 — Микрозадачи, async/await, Fetch
+            <span class="range">20.10.2025 — 26.10.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">20.10.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Микрозадачи и цикл событий</div>
+              <div class="small">
+                Читать: learn.javascript.ru/microtask-queue
+              </div>
+              <div class="small">
+                <b>Практика:</b> предскажите порядок логов с setTimeout и
+                Promise.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">21.10.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Promise API</div>
+              <div class="small">Читать: learn.javascript.ru/promise-api</div>
+              <div class="small">
+                <b>Практика:</b> загрузка N ресурсов через
+                Promise.all/any/allSettled.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">22.10.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">async/await</div>
+              <div class="small">Читать: learn.javascript.ru/async-await</div>
+              <div class="small">
+                <b>Практика:</b> перепишите промисы из вчера на async/await +
+                try/catch.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">23.10.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Fetch: основы</div>
+              <div class="small">Читать: learn.javascript.ru/fetch</div>
+              <div class="small">
+                <b>Практика:</b> получение списка пользователей, вывод ошибок,
+                индикатор загрузки.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">24.10.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">Интеграция недели: “Клиент API”</div>
+              <div class="small">
+                Список карточек, поиск с дебаунсом, отмена предыдущего запроса
+                (AbortController).
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">25.10.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">
+                Скринкаст 10–15 мин: объясните архитектуру.
+              </div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">26.10.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Прогулка.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 9 -->
+        <div class="week" id="week9">
+          <h2>
+            Неделя 9 — DOM, события, формы, хранилище
+            <span class="range">27.10.2025 — 02.11.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">27.10.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Навигация по DOM</div>
+              <div class="small">
+                Читать: learn.javascript.ru/dom-navigation
+              </div>
+              <div class="small">
+                <b>Практика:</b> найдите элементы и выведите информацию о них в
+                консоль.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">28.10.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Изменение документа</div>
+              <div class="small">
+                Читать: learn.javascript.ru/modifying-document
+              </div>
+              <div class="small">
+                <b>Практика:</b> создайте карточки из массива данных; сравните
+                innerHTML vs createElement.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">29.10.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">События и делегирование</div>
+              <div class="small">
+                Читать: learn.javascript.ru/events,
+                learn.javascript.ru/event-delegation
+              </div>
+              <div class="small">
+                <b>Практика:</b> список дел с делегированием кликов
+                (toggle/delete).
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">30.10.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Формы, отправка</div>
+              <div class="small">Читать: learn.javascript.ru/forms-submit</div>
+              <div class="small">
+                <b>Практика:</b> форма регистрации с кастомной валидацией и
+                подсказками.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">31.10.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">Интеграция недели: “To‑Do в браузере”</div>
+              <div class="small">
+                CRUD, фильтры, сохранение в localStorage, поиск (debounce 300
+                мс).
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">01.11.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Итоги месяца: 5 достижений.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">02.11.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Отдых без экрана.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week 10 -->
+        <div class="week" id="week10">
+          <h2>
+            Неделя 10 — Модули и финальный проект
+            <span class="range">03.11.2025 — 09.11.2025</span>
+          </h2>
+          <div class="days">
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">03.11.2025</span
+                  ><span class="dow">Пн</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Модули: введение</div>
+              <div class="small">Читать: learn.javascript.ru/modules</div>
+              <div class="small">
+                <b>Практика:</b> разбейте утилиты на модули, соберите index.js.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">04.11.2025</span
+                  ><span class="dow">Вт</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">import/export подробно</div>
+              <div class="small">Читать: learn.javascript.ru/import-export</div>
+              <div class="small">
+                <b>Практика:</b> именованные/экспорты по умолчанию,
+                barrel‑модуль.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">05.11.2025</span
+                  ><span class="dow">Ср</span>
+                </div>
+                <div class="time">60–90 мин</div>
+              </div>
+              <div class="topic">Динамический импорт</div>
+              <div class="small">
+                Читать: learn.javascript.ru/dynamic-import
+              </div>
+              <div class="small">
+                <b>Практика:</b> лениво грузите большой модуль по клику.
+              </div>
+            </div>
+            <div class="day">
+              <div class="head">
+                <div>
+                  <span class="date">06.11.2025</span
+                  ><span class="dow">Чт</span>
+                </div>
+                <div class="time">90–120 мин</div>
+              </div>
+              <div class="topic">Подготовка финального проекта</div>
+              <div class="small">Читать: learn.javascript.ru/coding-style</div>
+              <div class="small">
+                <b>Практика:</b> репозиторий, README (цели/фичи/скриншоты), план
+                модулей.
+              </div>
+            </div>
+            <div class="day block">
+              <div class="head">
+                <div>
+                  <span class="date">07.11.2025</span
+                  ><span class="dow">Пт</span>
+                </div>
+                <div class="time">120–150 мин</div>
+              </div>
+              <div class="topic">Финальный проект и мини‑релиз</div>
+              <div class="small">
+                <b>Задание:</b> реализуйте основной сценарий SPA (без
+                фреймворков), деплой на GitHub Pages или Netlify.
+              </div>
+            </div>
+
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">08.11.2025</span
+                  ><span class="dow">Сб</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">Празднуем результат.</div>
+            </div>
+            <div class="day rest">
+              <div class="head">
+                <div>
+                  <span class="date">09.11.2025</span
+                  ><span class="dow">Вс</span>
+                </div>
+                <div class="time">Отдых</div>
+              </div>
+              <div class="topic">День отдыха</div>
+              <div class="small">План на следующий месяц.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="blocks" class="panel">
+        <h2>Интеграционные задания — критерии</h2>
+        <ul>
+          <li>
+            Неделя 1 — Мини‑калькулятор: корректные преобразования типов,
+            форматирование чисел, история операций.
+          </li>
+          <li>
+            Неделя 2 — Квиз‑движок: ветвления, циклы, подсчёт баллов, резюме
+            результата.
+          </li>
+          <li>
+            Неделя 3 — Список задач (модель): чистые функции, неизменяемость,
+            фильтры.
+          </li>
+          <li>
+            Неделя 4 — Статистика заказов: числа/строки/массивы, сортировки и
+            агрегации.
+          </li>
+          <li>
+            Неделя 5 — Каталог данных: Map/Set, деструктуризация, даты, JSON.
+          </li>
+          <li>
+            Неделя 6 — Модель с классами: свойства/геттеры/наследование,
+            валидация.
+          </li>
+          <li>
+            Неделя 7 — Мини‑загрузчик: промисы, таймеры, обработка ошибок.
+          </li>
+          <li>
+            Неделя 8 — Клиент API: async/await, Promise API, Fetch, отмена
+            запросов.
+          </li>
+          <li>
+            Неделя 9 — To‑Do в браузере: DOM, события, формы, localStorage.
+          </li>
+          <li>
+            Неделя 10 — Финальный проект: модули, структура, деплой и README.
+          </li>
+        </ul>
+        <div class="note">
+          Совет: на каждое интеграционное задание заводите отдельную папку и
+          короткое видео‑обзор (скринкаст 3–5 мин).
+        </div>
+      </section>
+
+      <section id="progress" class="panel">
+        <h2>Трекер прогресса</h2>
+        <ul class="checklist">
+          <li><input type="checkbox" /> Неделя 1 пройдена</li>
+          <li><input type="checkbox" /> Неделя 2 пройдена</li>
+          <li><input type="checkbox" /> Неделя 3 пройдена</li>
+          <li><input type="checkbox" /> Неделя 4 пройдена</li>
+          <li><input type="checkbox" /> Неделя 5 пройдена</li>
+          <li><input type="checkbox" /> Неделя 6 пройдена</li>
+          <li><input type="checkbox" /> Неделя 7 пройдена</li>
+          <li><input type="checkbox" /> Неделя 8 пройдена</li>
+          <li><input type="checkbox" /> Неделя 9 пройдена</li>
+          <li><input type="checkbox" /> Неделя 10 пройдена</li>
+        </ul>
+        <div class="note">
+          Порог практики: набрать 60+ часов “чистого” времени (без чтения/видео,
+          только код и задачи).
+        </div>
+      </section>
+
+      <section id="resources" class="panel">
+        <h2>Полезные ресурсы</h2>
+        <ul>
+          <li>
+            Учебник: https://learn.javascript.ru/ (с картой разделов — добавьте
+            ?map к URL, например:
+            https://learn.javascript.ru/type-conversions?map)
+          </li>
+          <li>MDN Web Docs: справочник по JS и DOM.</li>
+          <li>Codewars: 1–2 задачи 8–6 kyu в учебные дни.</li>
+          <li>Chrome DevTools: профилирование производительности и памяти.</li>
+        </ul>
+        <p class="small">
+          Подсказка: фиксируйте вопросы в Issues репозитория и закрывайте по
+          мере решения.
+        </p>
+      </section>
+
+      <footer>
+        Успехов в обучении! Сохраните страницу как HTML или распечатайте в PDF.
+      </footer>
+    </div>
+  </body>
+</html>
