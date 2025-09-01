@@ -236,11 +236,11 @@
       print(color);
 
       // ДЗ с learnjs
-      let admin;
-      let name;
-      name = "john";
-      admin = name;
-      print(admin);
+      let adminLearnJs;
+      let nameLearnJs;
+      nameLearnJs = "john";
+      adminLearnJs = nameLearnJs;
+      print(adminLearnJs);
 
       let ourPlanetName = "Земля";
       let currentUserName;
@@ -285,8 +285,50 @@
       // let isUserAgree = confirm("Ты уверен?");
       // print(isUserAgree);
 
-      let userName = prompt("Как тебя зовут?", "Стас");
-      alert("Нормальный ты тип," + " " + userName);
+      // let userName = prompt("Как тебя зовут?", "Стас");
+      // alert("Нормальный ты тип," + " " + userName);
+
+      // DZ ot gpt 02.09.25
+
+      const axeTool = "axe";
+      const pickaxeTool = "pickaxe";
+      const shovelTool = "shovel";
+      let qty1 = 13;
+      let qty2 = 25;
+      let qty3 = 11;
+      let price1 = 150;
+      let price2 = 300;
+      let price3 = 100;
+
+      let totalPriceForAxes = qty1 * price1;
+      let totalPricePickaxes = qty2 * price2;
+      let totalPriceShovels = qty3 * price3;
+      let summaryPrice =
+        totalPriceForAxes + totalPricePickaxes + totalPriceShovels;
+      print("Общая стоимость всех инструментов:", summaryPrice);
+
+      // DZ ot gpt 03.09.25
+
+      let str = "0";
+      let num = 0;
+      let bool = isGreater;
+      let bigInteger = 182138128321838213812831283213892138n;
+
+      bigInteger = String(bigInteger);
+      num = String(num);
+
+      print(typeof str);
+      print(typeof num);
+      print(typeof bool);
+      print(typeof bigInteger);
+
+      print("6" / "2", "<-- преобразование из строк в числа");
+
+      str = Number(str);
+      print(str, typeof str);
+
+      print(Boolean(""));
+      print(Boolean("qq"));
 
       // Работа с DOM:
       // const box = document.createElement("div");
