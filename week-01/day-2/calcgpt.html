@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Мини калькулятор</title>
+  </head>
+  <body>
+    <input type="number" class="js-num1" placeholder="Число 1" />
+
+    <select class="js-select-operation">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">*</option>
+      <option value="/">/</option>
+    </select>
+
+    <input type="number" class="js-num2" placeholder="Число 2" />
+
+    <button class="js-btn">Посчитать</button>
+    <div class="js-result"></div>
+
+    <script>
+      const num1Node = document.querySelector(".js-num1");
+      const num2Node = document.querySelector(".js-num2");
+      const selectOperationNode = document.querySelector(
+        ".js-select-operation"
+      );
+      const resultNode = document.querySelector(".js-result");
+      const btn = document.querySelector(".js-btn");
+
+      btn.addEventListener("click", () => {
+        const a = Number(num1Node.value);
+        const b = Number(num2Node.value);
+        const operation = selectOperationNode.value;
+
+        let result;
+
+        switch (operation) {
+          case "+":
+            result = a + b;
+            break;
+          case "-":
+            result = a - b;
+            break;
+          case "*":
+            result = a * b;
+            break;
+          case "/":
+            result = b !== 0 ? a / b : "Ошибка: деление на ноль";
+            break;
+          default:
+            result = "Неизвестная операция";
+        }
+
+        resultNode.textContent = `Результат: ${result}`;
+      });
+    </script>
+  </body>
+</html>
