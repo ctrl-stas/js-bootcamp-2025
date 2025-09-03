@@ -199,6 +199,8 @@
       const depositBtn = document.getElementById("depositBtn");
       const themeBtn = document.getElementById("themeToggle");
 
+      renderBalance();
+
       themeBtn.addEventListener("click", () => {
         document.body.classList.toggle("light");
         const isLight = document.body.classList.contains("light");
@@ -212,8 +214,20 @@
         }
       });
 
+      function parseDeposit(rawStr) {
+        if (rawStr == null) return null;
+        const s = String(rawStr);
+        const m = s.match(/^(?:\d+)(?:\.(\d{1,2}))?$/);
+        if (!m) return null;
+
+        const num = Number(s);
+        if (!Number.isFinite(num) || num <= 0) return null;
+
+        return num;
+      }
+
       function renderBalance() {
-        balanceNode.textContent = "Баланс: " + balance.toFixed(2);
+        balanceNode.textContent = "Баланс: " + balance.toFixed(2) + " €";
       }
 
       function setResult(message) {
@@ -295,7 +309,7 @@
       }
 
       playBtn.onclick = function () {
-        depositInput.classList.remove("valid");
+        depositInput.classList.remove("valid", "error");
 
         if (balance < GAME_COST) {
           resultNode.textContent = "Недостаточно средств, обновите страницу";
@@ -320,7 +334,6 @@
           if (stopped === reels.length) {
             const reward = win ? WIN_REWARD : 0;
             balance = balanceNormalize(balance + reward);
-            updatePlayDisable();
             setResult((message = win ? "🎰 WIN" : "😔 LOSE"));
             renderBalance();
             updatePlayDisable();
@@ -349,10 +362,9 @@
       };
 
       depositBtn.addEventListener("click", () => {
-        const raw = depositInput.value.trim().replace(",", ".");
-        const regex = /^\d+(\.\d{1,2})?$/;
+        const parsedNum = parseDeposit(depositInput.value);
 
-        if (!regex.test(raw) || !Number.isFinite(raw) || Number(raw) <= 0) {
+        if (parsedNum === null) {
           setResult("Введите корректную сумму");
           depositInput.classList.remove("valid");
           depositInput.classList.add("error");
@@ -360,7 +372,7 @@
           return;
         }
 
-        const amount = Number(raw);
+        const amount = parsedNum;
 
         balance = balanceNormalize(balance + amount);
         renderBalance();
@@ -373,10 +385,9 @@
       });
 
       depositInput.addEventListener("input", () => {
-        const raw = depositInput.value.trim().replace(",", ".");
+        const parsedNum = parseDeposit(depositInput.value);
 
-        const regex = /^\d+(\.\d{1,2})?$/;
-        if (regex.test(raw) && Number(raw) > 0) {
+        if (parsedNum !== null) {
           depositInput.classList.remove("error");
           depositInput.classList.add("valid");
         } else {
