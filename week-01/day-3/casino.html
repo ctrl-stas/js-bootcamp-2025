@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Добро пожаловать в казино!</title>
+    <style>
+      :root {
+        --bg: #1e1e2f;
+        --text: #f1f1f1;
+        --accent: #ff6347;
+        --secondary: #ffd700;
+        --card-bg: #2a2e57;
+      }
+      body.light {
+        --bg: #bbbbbb;
+        --text: #222;
+        --accent: #d62828;
+        --secondary: #ffc107;
+        --card-bg: #f1f1f1;
+      }
+      html::-webkit-scrollbar {
+        width: 10px;
+      }
+      html::-webkit-scrollbar-track {
+        background: #ffff00;
+      }
+      html::-webkit-scrollbar-thumb {
+        background: #1e3a8a;
+        border-radius: 20px;
+      }
+      html::-webkit-scrollbar-thumb:hover {
+        background: #ff6347;
+      }
+      html {
+        scrollbar-width: thin;
+        scrollbar-color: #1e1e1e #ffff00;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      header {
+        text-align: center; /* центрирует текст и inline-элементы */
+      }
+      header h1 {
+        margin: 0;
+        font-size: 2rem;
+        color: var(--secondary);
+      }
+
+      #slots {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        min-height: 5rem;
+      }
+      .reel {
+        width: 4rem;
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        font-size: 3rem;
+        line-height: 1;
+        border-radius: 10px;
+        background: #ffffff22;
+        border: 2px solid #00000033;
+        user-select: none;
+      }
+      #slots span {
+        font-size: 4rem;
+        line-height: 1;
+      }
+      button {
+        border: none;
+        background: var(--accent);
+        padding: 10px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background: var(--secondary);
+        color: #000;
+      }
+
+      .muted {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+      .game {
+        padding: 16px;
+        background: var(--card-bg);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      }
+      #slots {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        min-height: 5rem;
+      }
+      .reel {
+        width: 4rem;
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        border-radius: 10px;
+        background: #ffffff22;
+        border: 2px solid #00000033;
+      }
+      #balance {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: large;
+        font-weight: 600;
+        margin-top: 200px;
+        align-self: center;
+      }
+      section {
+        width: 30vw;
+        height: 20vw;
+      }
+      #result {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .controls input {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to casino!</h1>
+      <div class="muted">Попробуй выиграть нас, или потеряешь все деньги</div>
+    </header>
+
+    <section class="game">
+      <div id="slots" class="slots"></div>
+      <div id="result">Жмите "Играть"</div>
+      <div id="balance">Баланс: 100</div>
+      <button id="playBtn">Играть</button>
+
+      <div class="controls">
+        <input type="number" id="depositAmount" placeholder="Сумма" />
+        <button id="depositBtn">Пополнить</button>
+      </div>
+
+      <button id="themeToggle">🌕</button>
+    </section>
+
+    <script>
+      const GAME_COST = 2.99;
+      const WIN_CHANCE = 0.1;
+      const WIN_REWARD = 100;
+      const IMAGES = ["🍒", "🍋", "🍉", "⭐", "🔔", "7️⃣"];
+
+      let balance = 100;
+
+      const resultNode = document.getElementById("result");
+      const balanceNode = document.getElementById("balance");
+      const playBtn = document.getElementById("playBtn");
+      const slotsNode = document.getElementById("slots");
+      const depositInput = document.getElementById("depositAmount");
+      const depositBtn = document.getElementById("depositBtn");
+      const themeBtn = document.getElementById("themeToggle");
+
+      themeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light");
+        const isLight = document.body.classList.contains("light");
+        themeBtn.textContent = isLight ? "🌑" : "🌕";
+        localStorage.setItem("theme", isLight ? "light" : "dark");
+
+        if (document.body.classList.contains("light")) {
+          themeBtn.textContent = "🌑";
+        } else {
+          themeBtn.textContent = "🌕";
+        }
+      });
+
+      function renderBalance() {
+        balanceNode.textContent = "Баланс: " + balance.toFixed(2);
+      }
+
+      function setResult(message) {
+        resultNode.textContent = message;
+      }
+
+      const reels = createReels(3);
+
+      function createReels(n) {
+        slotsNode.innerHTML = "";
+        const arr = [];
+        for (let i = 0; i < n; i++) {
+          const div = document.createElement("div");
+          div.className = "reel";
+          div.textContent = "?";
+          slotsNode.appendChild(div);
+          arr.push(div);
+        }
+        return arr;
+      }
+
+      function spinReel(
+        node,
+        finalSymbol,
+        {
+          startDelayMs = 50,
+          steps = 35,
+          decelFactor = 1.08,
+          onStop = () => {},
+        } = {}
+      ) {
+        let idx = 0;
+        let step = 0;
+        let delay = startDelayMs;
+        let timerId = null;
+
+        function tick() {
+          node.textContent = IMAGES[idx];
+          idx = (idx + 1) % IMAGES.length;
+          step++;
+
+          if (step >= steps) {
+            node.textContent = finalSymbol;
+            onStop();
+            return;
+          }
+
+          delay = delay * decelFactor;
+          timerId = setTimeout(tick, delay);
+        }
+
+        tick();
+        return () => clearTimeout(timerId);
+      }
+
+      function randSymbol() {
+        return IMAGES[Math.floor(Math.random() * IMAGES.length)];
+      }
+
+      function pickFinalSymbols(win) {
+        if (!win && IMAGES.length < 2) {
+          return [randSymbol(), randSymbol(), randSymbol()];
+        }
+
+        if (win) {
+          const s = randSymbol();
+          return [s, s, s];
+        } else {
+          let s1 = randSymbol();
+          let s2 = randSymbol();
+          let s3 = randSymbol();
+
+          if (s1 === s2 && s2 === s3) {
+            const others = IMAGES.filter((x) => x !== s1);
+            s3 = others[Math.floor(Math.random() * others.length)];
+          }
+          return [s1, s2, s3];
+        }
+      }
+
+      playBtn.onclick = function () {
+        if (balance < GAME_COST) {
+          resultNode.textContent = "Недостаточно средств, обновите страницу";
+          return;
+        }
+
+        balance = balanceNormalize(balance - GAME_COST);
+        updatePlayDisable();
+        renderBalance();
+        updatePlayDisable();
+
+        playBtn.disabled = true;
+        resultNode.textContent = "Крутим...";
+
+        const win = Math.random() < WIN_CHANCE;
+
+        const [f1, f2, f3] = pickFinalSymbols(win);
+
+        let stopped = 0;
+        const onAnyStop = () => {
+          stopped += 1;
+          if (stopped === reels.length) {
+            const reward = win ? WIN_REWARD : 0;
+            balance = balanceNormalize(balance + reward);
+            updatePlayDisable();
+            setResult((message = win ? "🎰 WIN" : "😔 LOSE"));
+            renderBalance();
+            updatePlayDisable();
+            playBtn.disabled = false;
+          }
+        };
+
+        spinReel(reels[0], f1, {
+          startDelayMs: 40,
+          steps: 17,
+          decelFactor: 1.08,
+          onStop: onAnyStop,
+        });
+        spinReel(reels[1], f2, {
+          startDelayMs: 50,
+          steps: 20,
+          decelFactor: 1.09,
+          onStop: onAnyStop,
+        });
+        spinReel(reels[2], f3, {
+          startDelayMs: 60,
+          steps: 20,
+          decelFactor: 1.1,
+          onStop: onAnyStop,
+        });
+      };
+
+      depositBtn.addEventListener("click", () => {
+        const raw = depositInput.value.trim();
+        const parsed = Number(raw.replace(",", "."));
+
+        if (!Number.isFinite(parsed) || parsed <= 0) {
+          setResult("Введите корректную сумму");
+          depositInput.focus();
+          return;
+        }
+
+        const amount = Math.round(parsed * 100) / 100;
+
+        balance = balanceNormalize(balance + amount);
+        renderBalance();
+        updatePlayDisable();
+        setResult(`Пополнение: +${amount}`);
+
+        depositInput.value = "";
+        depositInput.focus();
+      });
+
+      depositInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          depositBtn.click();
+        }
+      });
+
+      function updatePlayDisable() {
+        playBtn.disabled = balance < GAME_COST;
+      }
+
+      if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light");
+        themeBtn.textContent = "🌑";
+      }
+
+      function balanceNormalize(num) {
+        return Math.round(num * 100) / 100;
+      }
+    </script>
+  </body>
+</html>
