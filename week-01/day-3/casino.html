@@ -153,6 +153,14 @@
         border: 1px solid #ccc;
         font-size: 1rem;
       }
+      input.error {
+        border: 2px solid red;
+        background: #ffdddd;
+      }
+      input.valid {
+        border: 2px solid green;
+        background: #ddffdd;
+      }
     </style>
   </head>
   <body>
@@ -287,6 +295,8 @@
       }
 
       playBtn.onclick = function () {
+        depositInput.classList.remove("valid");
+
         if (balance < GAME_COST) {
           resultNode.textContent = "Недостаточно средств, обновите страницу";
           return;
@@ -339,24 +349,40 @@
       };
 
       depositBtn.addEventListener("click", () => {
-        const raw = depositInput.value.trim();
-        const parsed = Number(raw.replace(",", "."));
+        const raw = depositInput.value.trim().replace(",", ".");
+        const regex = /^\d+(\.\d{1,2})?$/;
 
-        if (!Number.isFinite(parsed) || parsed <= 0) {
+        if (!regex.test(raw) || !Number.isFinite(raw) || Number(raw) <= 0) {
           setResult("Введите корректную сумму");
+          depositInput.classList.remove("valid");
+          depositInput.classList.add("error");
           depositInput.focus();
           return;
         }
 
-        const amount = Math.round(parsed * 100) / 100;
+        const amount = Number(raw);
 
         balance = balanceNormalize(balance + amount);
         renderBalance();
         updatePlayDisable();
-        setResult(`Пополнение: +${amount}`);
+        setResult(`Пополнение: +${amount.toFixed(2)}`);
 
         depositInput.value = "";
+        depositInput.classList.remove("error", "valid");
         depositInput.focus();
+      });
+
+      depositInput.addEventListener("input", () => {
+        const raw = depositInput.value.trim().replace(",", ".");
+
+        const regex = /^\d+(\.\d{1,2})?$/;
+        if (regex.test(raw) && Number(raw) > 0) {
+          depositInput.classList.remove("error");
+          depositInput.classList.add("valid");
+        } else {
+          depositInput.classList.remove("valid");
+          depositInput.classList.add("error");
+        }
       });
 
       depositInput.addEventListener("keydown", (e) => {
