@@ -1,0 +1,19 @@
+/* ===== 📐 layout.css ===== */
+header {
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 12px 0;
+  font-size: 2rem;
+  color: var(--secondary);
+}
+
+header p.muted {
+  margin: 0 0 20px 0;
+}
+
+section.game {
+  width: 30vw;
+  height: 20vw;
+}

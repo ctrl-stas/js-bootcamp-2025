@@ -1,0 +1,61 @@
+/* ===== 🎰 game.css ===== */
+.game {
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+#slots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  min-height: 5rem;
+}
+
+.reel {
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  border-radius: 10px;
+  background: #ffffff22;
+  border: 2px solid #00000033;
+}
+
+#slots span {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+#balance {
+  font-size: large;
+  font-weight: 600;
+  margin-top: 200px;
+  align-self: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#result {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.controls input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
