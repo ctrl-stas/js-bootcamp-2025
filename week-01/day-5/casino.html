@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Добро пожаловать в казино!</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to casino!</h1>
+      <div class="muted">Попробуй выиграть нас, или потеряешь все деньги</div>
+    </header>
+
+    <section class="game">
+      <div id="slots" class="slots"></div>
+      <div id="result">Жмите "Играть"</div>
+      <div id="balance">Баланс: 100</div>
+      <button id="playBtn">Играть</button>
+
+      <div class="controls">
+        <input type="number" id="depositAmount" placeholder="Сумма" />
+        <button id="depositBtn">Пополнить</button>
+      </div>
+
+      <button id="themeToggle">🌕</button>
+    </section>
+
+    <script src="js/config.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/deposit.js"></script>
+    <script src="js/theme.js"></script>
+  </body>
+</html>
